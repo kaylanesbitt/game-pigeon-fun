@@ -1,3 +1,4 @@
+from trie_module import Trie, TrieNode
 from dictionary import dictionary
 
 class Board: 
@@ -24,11 +25,9 @@ class Board:
         if x > -1 and y > -1 and x < 4 and y < 4: 
             return True
     
-
-    
     def find_words(self): 
 
-        words = set()
+        words = {}
         moves = [
         (-1,  0),  # Up
         ( 1,  0),  # Down
@@ -44,7 +43,7 @@ class Board:
             path += self.getLetter(x, y)
             visited.add((x,y))
             if dictionary.search(path): 
-                words.add(path)
+                words[path] = visited
             if dictionary.is_prefix(path): 
                 #check possible moves 
                 for dx, dy in moves: 
@@ -57,26 +56,17 @@ class Board:
                 dfs_recursive(x, y, "", set())
         
 
-        return sorted(list(words), key=len, reverse=True)
-        
+        return words
+    
 
 def main(): 
     chars = input("Enter your board: ")
 
     board = Board(chars)
 
-    board.toString()
-
-    print(board.find_words())
+    for word in sorted(board.find_words(), key=len, reverse=True): 
+        print(word)
     
 
 if __name__ == "__main__": 
     main()
-
-    
-
-
-
-
-
-
