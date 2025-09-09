@@ -50,8 +50,7 @@ class Board:
                 for dx, dy in moves: 
                     if self.inBoard(x + dx, y + dy) and (x+dx, y+dy) not in visited: 
                         dfs_recursive(x+dx, y+dy, path, visited.copy())
-            else: 
-                return
+            
 
         for x in range(4): 
             for y in range(4): 
