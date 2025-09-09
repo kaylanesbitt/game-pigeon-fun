@@ -1,3 +1,5 @@
+from dictionary import dictionary
+
 class Board: 
     letters: list[list[str]]
 
@@ -24,53 +26,65 @@ class Board:
     
 
     
-    def traverse(self): 
+    def find_words(self): 
 
-        vis = [[False for i in range(4)] for j in range(4)]
-        dRow = [0, 1, 0, -1]
-        dCol = [-1, 0, 1, 0]
+        words = set()
+        moves = [
+        (-1,  0),  # Up
+        ( 1,  0),  # Down
+        ( 0, -1),  # Left
+        ( 0,  1),  # Right
+        (-1, -1),  # Up-Left (diagonal)
+        (-1,  1),  # Up-Right (diagonal)
+        ( 1, -1),  # Down-Left (diagonal)
+        ( 1,  1)   # Down-Right (diagonal)
+        ]
 
-        def isValid(self, x, y): 
-            if self.inBoard(x,y) == False: 
-                return False
-            elif vis[x][y]: 
-                return False
-            return True
 
-        def dfs(self, x=0, y=0): 
+        def dfs(x, y, visited): 
             st = []
-            st.append([x,y])
+            st.append((x, y))
+            path = ""
 
-            while len(st) > 0: 
+            while st: 
                 curr = st.pop()
-                row,col = curr[0], curr[1]
-                if (isValid(self,row,col) == False): 
-                    continue
-            
-                vis[row][col] = True
+                row, col = curr[0], curr[1]
 
-                print(self.getLetter(row, col), end="")
+                
+                visited.add((row, col))
+                path += self.getLetter(row, col)
 
-                # push all valid moves
-                for i in range(4):
-                    adjx = row + dRow[i]
-                    adjy = col + dCol[i]
-                    if self.inBoard(adjx, adjy): 
-                        st.append([adjx, adjy])
+                if dictionary.search(path): 
+                    words.add(path)
+                
+                if dictionary.is_prefix(path): 
+                    for dx, dy in moves: 
+                        adjx, adjy = row + dx, row + dy
+                        if self.inBoard(adjx, adjy) and (adjx, adjy) not in visited: 
+                            st.append((adjx, adjy))
+
+        for x in range(4): 
+            for y in range(4): 
+                dfs(x, y, set())
+        return words
+
+
+
         
-        dfs(self)
 
-chars = [
-    "a", "n", "c", "d",
-    "e", "f", "g", "h",
-    "i", "j", "k", "l",
-    "m", "n", "o", "p"
-]
 
-new_board = Board(chars)
-new_board.toString()
+def main(): 
+    chars = input("Enter your board: ")
 
-print(new_board.traverse())
+    board = Board(chars)
+
+    board.toString()
+
+    print(board.find_words())
+    
+
+if __name__ == "__main__": 
+    main()
 
     
 
