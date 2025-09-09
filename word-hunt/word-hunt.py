@@ -40,38 +40,26 @@ class Board:
         ( 1,  1)   # Down-Right (diagonal)
         ]
 
-
-        def dfs(x, y, visited): 
-            st = []
-            st.append((x, y))
-            path = ""
-
-            while st: 
-                curr = st.pop()
-                row, col = curr[0], curr[1]
-
-                
-                visited.add((row, col))
-                path += self.getLetter(row, col)
-
-                if dictionary.search(path): 
-                    words.add(path)
-                
-                if dictionary.is_prefix(path): 
-                    for dx, dy in moves: 
-                        adjx, adjy = row + dx, row + dy
-                        if self.inBoard(adjx, adjy) and (adjx, adjy) not in visited: 
-                            st.append((adjx, adjy))
+        def dfs_recursive(x, y, path, visited): 
+            path += self.getLetter(x, y)
+            visited.add((x,y))
+            if dictionary.search(path): 
+                words.add(path)
+            if dictionary.is_prefix(path): 
+                #check possible moves 
+                for dx, dy in moves: 
+                    if self.inBoard(x + dx, y + dy) and (x+dx, y+dy) not in visited: 
+                        dfs_recursive(x+dx, y+dy, path, visited.copy())
+            else: 
+                return
 
         for x in range(4): 
             for y in range(4): 
-                dfs(x, y, set())
-        return words
-
-
-
+                dfs_recursive(x, y, "", set())
         
 
+        return sorted(list(words), key=len, reverse=True)
+        
 
 def main(): 
     chars = input("Enter your board: ")
