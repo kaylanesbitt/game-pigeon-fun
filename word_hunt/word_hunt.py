@@ -1,5 +1,6 @@
-from trie_module import Trie, TrieNode
-from dictionary import dictionary
+from common.trie_module import Trie
+from common.dictionary import dictionary
+
 
 class Board: 
     letters: list[list[str]]
@@ -57,16 +58,3 @@ class Board:
         
 
         return words
-    
-
-def main(): 
-    chars = input("Enter your board: ")
-
-    board = Board(chars)
-
-    for word in sorted(board.find_words(), key=len, reverse=True): 
-        print(word)
-    
-
-if __name__ == "__main__": 
-    main()
