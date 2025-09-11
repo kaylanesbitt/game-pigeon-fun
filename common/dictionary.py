@@ -1,11 +1,12 @@
-import os, pickle, requests
-from common.trie_module import Trie
+import os, pickle
+from trie_module import Trie
+from requests import get
 
 PICKLE_FILE = "common/dictionary.pkl"
 
 def load_trie(): 
     url = "https://raw.githubusercontent.com/scrabblewords/scrabblewords/main/words/North-American/NWL2020.txt"
-    response = requests.get(url)
+    response = get(url)
 
     dictionary = Trie()
 
