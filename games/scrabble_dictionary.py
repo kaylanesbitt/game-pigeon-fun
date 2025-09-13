@@ -2,7 +2,7 @@ import os, pickle
 from trie_module import Trie
 from requests import get
 
-PICKLE_FILE = "common/dictionary.pkl"
+PICKLE_FILE = "games/scrabble_dictionary.pkl"
 
 def load_trie(): 
     url = "https://raw.githubusercontent.com/scrabblewords/scrabblewords/main/words/North-American/NWL2020.txt"

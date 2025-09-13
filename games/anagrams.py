@@ -1,5 +1,5 @@
-from common.trie_module import Trie
-from common.dictionary import dictionary
+from trie_module import Trie
+from games.scrabble_dictionary import dictionary
 
 class Anagram: 
     letters = []
